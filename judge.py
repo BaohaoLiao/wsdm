@@ -99,13 +99,6 @@ def prepare_data(args):
     return examples, out_file
 
 
-def get_responses(args, llm, samples):
-    return results
-
-def parse_results(outputs):
-    return results
-
-
 def main(llm, tokenizer, args):
     # Prepare data
     examples, out_file = prepare_data(args)
