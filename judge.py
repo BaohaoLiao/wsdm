@@ -70,7 +70,7 @@ def prepare_data(args):
     df = df[args.start : len(df) if args.end == -1 else args.end]
 
     # get out_file name
-    out_file_prefix = f"{args.prompt_type}_{args.num_test_sample}_seed{args.seed}_t{args.temperature}"
+    out_file_prefix = f"{args.prompt_type}_{args.num_sample}_seed{args.seed}_t{args.temperature}"
     output_dir = args.output_dir
     if not os.path.exists(output_dir):
         output_dir = f"outputs/{output_dir}"
