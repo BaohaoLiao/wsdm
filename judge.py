@@ -3,7 +3,6 @@ import time
 import json
 import argparse
 import pandas as pd
-from datetime import datetime
 from tqdm import tqdm
 
 from transformers import AutoTokenizer
