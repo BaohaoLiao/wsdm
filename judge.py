@@ -49,6 +49,7 @@ def setup(args):
         tensor_parallel_size=len(available_gpus) // args.pipeline_parallel_size,
         pipeline_parallel_size=args.pipeline_parallel_size,
         trust_remote_code=True,
+        max_num_batched_tokends=4096,
     )
     tokenizer = None
     if args.apply_chat_template:
@@ -157,7 +158,7 @@ def main(llm, tokenizer, args):
         stop_words = ["</s>", "<|im_end|>", "<|endoftext|>"]
     elif args.prompt_type == "gemma2":
         stop_words = ["<eos>", "<end_of_turn>"]
-        
+
     start_time = time.time()
     input_prompts = [(i, sample["prompt"]) for i, sample in enumerate(samples)]
     prompts = [item[1] for item in input_prompts]
