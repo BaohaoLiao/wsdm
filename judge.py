@@ -106,6 +106,9 @@ def main(llm, tokenizer, args):
     # Prepare prompts
     judge_prompt = load_judge_prompts(args.prompt_path)["pair-v2"]
     system_prompt = judge_prompt["system_prompt"]
+    prompt_temp = PROMPT_TEMPLATES[args.prompt_type]
+    input_template, output_template = prompt_temp[0], prompt_temp[1]
+
     samples = []
     for example in tqdm(examples, total=len(examples)):
         idx = example["idx"]
@@ -114,10 +117,10 @@ def main(llm, tokenizer, args):
             answer_a=example["response_a"],
             answer_b=example["response_b"],
         )
-        full_prompt = PROMPT_TEMPLATES[args.prompt_type].format(
+        full_prompt = input_template.format(
             system_prompt=system_prompt,
             user_prompt=user_prompt
-        )
+        ) + output_template
 
         if idx == args.start:
             print(full_prompt)

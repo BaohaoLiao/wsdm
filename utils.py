@@ -37,7 +37,7 @@ def save_jsonl(samples, save_path):
 
 PROMPT_TEMPLATES = {
     "qwen25": (
-        "<|im_start|>system\n{system_prompt}.<|im_end|>\n"
+        "<|im_start|>system\n{system_prompt}<|im_end|>\n"
         "<|im_start|>user\n{user_prompt}<|im_end|>\n"
         "<|im_start|>assistant\n",
         "{output}",
