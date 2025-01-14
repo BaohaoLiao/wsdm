@@ -182,8 +182,10 @@ def main(llm, tokenizer, args):
     # put results back to examples
     all_samples = []
     for i, sample in enumerate(samples):
+        winner = sample["winner"]
         sample.pop("prompt")
-        sample.update({"completion": completions[i], "pred": preds[i]})
+        sample.pop("winner")
+        sample.update({"completion": completions[i], "pred": preds[i], "winner": winner})
         all_samples.append(sample)
 
     # save outputs
