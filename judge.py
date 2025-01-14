@@ -24,7 +24,7 @@ def parse_args():
     parser.add_argument("--end", default=-1, type=int)
     parser.add_argument("--temperature", default=0, type=float)
     parser.add_argument("--top_p", default=1, type=float)
-    parser.add_argument("--max_tokens_per_call", default=2048, type=int)
+    parser.add_argument("--max_tokens_per_call", default=1024, type=int)
     parser.add_argument("--save_outputs", action="store_true")
     parser.add_argument("--overwrite", action="store_true")
     parser.add_argument("--use_safetensors", action="store_true")
