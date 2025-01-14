@@ -39,8 +39,12 @@ PROMPT_TEMPLATES = {
     "qwen25": (
         "<|im_start|>system\n{system_prompt}<|im_end|>\n"
         "<|im_start|>user\n{user_prompt}<|im_end|>\n"
-        "<|im_start|>assistant\n",
-        "{output}",
-        "\n\n",
+        "<|im_start|>assistant\n"
     ),
+    "gemma2": (
+        "<bos><start_of_turn>user\n"
+        "{system_prompt}\n\n"
+        "{user_prompt}<end_of_turn>\n"
+        "<start_of_turn>model\n"
+    )
 }

@@ -121,8 +121,7 @@ def main(llm, tokenizer, args):
     # Prepare prompts
     judge_prompt = load_judge_prompts(args.prompt_path)["pair-v2"]
     system_prompt = judge_prompt["system_prompt"]
-    prompt_temp = PROMPT_TEMPLATES[args.prompt_type]
-    input_template = prompt_temp[0]
+    input_template = PROMPT_TEMPLATES[args.prompt_type]
 
     samples = []
     for example in tqdm(examples, total=len(examples)):
@@ -154,7 +153,11 @@ def main(llm, tokenizer, args):
         samples.append(sample)
 
     # start inference
-    stop_words = ["</s>", "<|im_end|>", "<|endoftext|>"]
+    if args.prompt_type == "qwen25":
+        stop_words = ["</s>", "<|im_end|>", "<|endoftext|>"]
+    elif args.prompt_type == "gemma2":
+        stop_words = ["<eos>", "<end_of_turn>"]
+        
     start_time = time.time()
     input_prompts = [(i, sample["prompt"]) for i, sample in enumerate(samples)]
     prompts = [item[1] for item in input_prompts]
