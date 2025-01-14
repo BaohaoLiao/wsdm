@@ -17,7 +17,7 @@ def load_judge_prompts(prompt_file: str):
     Dict[judge_name: str -> dict]
     """
     prompts = {}
-    with open(prompt_file) as fin:
+    with open(prompt_file, 'r', encoding="utf-8") as fin:
         for line in fin:
             line = json.loads(line)
             prompts[line["name"]] = line
