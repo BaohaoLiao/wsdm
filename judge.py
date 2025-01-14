@@ -107,7 +107,7 @@ def main(llm, tokenizer, args):
     judge_prompt = load_judge_prompts(args.prompt_path)["pair-v2"]
     system_prompt = judge_prompt["system_prompt"]
     prompt_temp = PROMPT_TEMPLATES[args.prompt_type]
-    input_template = prompt_temp[0], prompt_temp[1]
+    input_template = prompt_temp[0]
 
     samples = []
     for example in tqdm(examples, total=len(examples)):
