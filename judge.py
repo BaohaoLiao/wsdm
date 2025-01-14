@@ -49,7 +49,7 @@ def setup(args):
         tensor_parallel_size=len(available_gpus) // args.pipeline_parallel_size,
         pipeline_parallel_size=args.pipeline_parallel_size,
         trust_remote_code=True,
-        max_num_batched_tokens=4096,
+        max_num_batched_tokens=4096 if "gemma" in args.model_name_or_path.lower() else None,
     )
     tokenizer = None
     if args.apply_chat_template:
