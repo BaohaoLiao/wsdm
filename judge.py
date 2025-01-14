@@ -28,6 +28,7 @@ def parse_args():
     parser.add_argument("--save_outputs", action="store_true")
     parser.add_argument("--overwrite", action="store_true")
     parser.add_argument("--use_safetensors", action="store_true")
+    parser.add_argument("--switch_order", action="store_true")
     parser.add_argument("--pipeline_parallel_size", type=int, default=1)
     parser.add_argument(
         "--apply_chat_template",
@@ -70,7 +71,7 @@ def prepare_data(args):
     df = df[args.start : len(df) if args.end == -1 else args.end]
 
     # get out_file name
-    out_file_prefix = f"{args.prompt_type}_{args.num_sample}_seed{args.seed}_t{args.temperature}"
+    out_file_prefix = f"switch{args.switch_order}_{args.prompt_type}_{args.num_sample}_seed{args.seed}_t{args.temperature}"
     output_dir = args.output_dir
     if not os.path.exists(output_dir):
         output_dir = f"outputs/{output_dir}"
@@ -82,17 +83,31 @@ def prepare_data(args):
     for index, row in df.iterrows():
         if row["prompt"] is not None and row["winner"] is not None \
            and row["response_a"] is not None and row["response_b"] is not None:
-            example = {
-                "idx": index,
-                "id": row["id"],
-                "prompt": row["prompt"],
-                "response_a": row["response_a"],
-                "response_b": row["response_b"],
-                "winner": row["winner"],
-                "model_a": row["model_a"],
-                "model_b": row["model_b"],
-                "language": row["language"],
-            }
+            if args.switch_order:
+                maps = {"model_a": "model_b", "model_b": "model_a"}
+                example = {
+                    "idx": index,
+                    "id": row["id"],
+                    "prompt": row["prompt"],
+                    "response_a": row["response_b"],
+                    "response_b": row["response_a"],
+                    "winner": maps[row["winner"]],
+                    "model_a": row["model_b"],
+                    "model_b": row["model_a"],
+                    "language": row["language"],
+                }
+            else:
+                example = {
+                    "idx": index,
+                    "id": row["id"],
+                    "prompt": row["prompt"],
+                    "response_a": row["response_a"],
+                    "response_b": row["response_b"],
+                    "winner": row["winner"],
+                    "model_a": row["model_a"],
+                    "model_b": row["model_b"],
+                    "language": row["language"],
+                }
             examples.append(example)
         else:
             print(f"None in row {index}")
