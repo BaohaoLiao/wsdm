@@ -46,5 +46,10 @@ PROMPT_TEMPLATES = {
         "{system_prompt}\n\n"
         "{user_prompt}<end_of_turn>\n"
         "<start_of_turn>model\n"
-    )
+    ),
+    "llama3": (
+        "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\n"
+        "{system_prompt}<|eot_id|><|start_header_id|>user<|end_header_id|>\n\n"
+        "{user_prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+    ),
 }

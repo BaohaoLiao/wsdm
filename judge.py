@@ -158,6 +158,8 @@ def main(llm, tokenizer, args):
         stop_words = ["</s>", "<|im_end|>", "<|endoftext|>"]
     elif args.prompt_type == "gemma2":
         stop_words = ["<eos>", "<end_of_turn>"]
+    elif args.prompt_type == "llama3":
+        stop_words = ["<|end_of_text|>", "<|eot_id|>"]
 
     start_time = time.time()
     input_prompts = [(i, sample["prompt"]) for i, sample in enumerate(samples)]
