@@ -17,7 +17,8 @@ def parse_args():
     parser.add_argument("--prompt_path", default="./data/judge_prompts.jsonl", type=str)
     parser.add_argument("--model_name_or_path", default="Qwen2.5-1.5B-Instruct", type=str)
     parser.add_argument("--output_dir", default="./output", type=str)
-    parser.add_argument("--prompt_type", default="pair-v2", type=str)
+    parser.add_argument("--prompt_type", default="qwen25", type=str)
+    parser.add_argument("--judge_prompt_type", default="pair-v2", type=str)
     parser.add_argument("--num_sample", default=-1, type=int)  # -1 for full data
     parser.add_argument("--seed", default=0, type=int)
     parser.add_argument("--start", default=0, type=int)
@@ -72,7 +73,7 @@ def prepare_data(args):
     df = df[args.start : len(df) if args.end == -1 else args.end]
 
     # get out_file name
-    out_file_prefix = f"switch{args.switch_order}_{args.prompt_type}_{args.num_sample}_seed{args.seed}_t{args.temperature}"
+    out_file_prefix = f"switch{args.switch_order}_{args.prompt_type}_{args.judge_prompt_type}_{args.num_sample}_seed{args.seed}_t{args.temperature}"
     output_dir = args.output_dir
     if not os.path.exists(output_dir):
         output_dir = f"outputs/{output_dir}"
@@ -120,7 +121,7 @@ def main(llm, tokenizer, args):
     examples, out_file = prepare_data(args)
 
     # Prepare prompts
-    judge_prompt = load_judge_prompts(args.prompt_path)["pair-v2"]
+    judge_prompt = load_judge_prompts(args.prompt_path)[args.judge_prompt_type]
     system_prompt = judge_prompt["system_prompt"]
     input_template = PROMPT_TEMPLATES[args.prompt_type]
 
